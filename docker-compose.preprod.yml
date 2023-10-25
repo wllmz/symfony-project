@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+    php:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - .:/var/www/html
+
+    nginx:
+        image: nginx:latest
+        ports:
+            - "8002:80"
+        volumes:
+            - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+            - .:/var/www/html
+
+
+    db:
+        image: mysql:5.7
+        environment:
+            MYSQL_DATABASE: symfony_preprod
+            MYSQL_USER: user_preprod
+            MYSQL_PASSWORD: password_preprod
+            MYSQL_ROOT_PASSWORD: root_password_preprod
