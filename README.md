@@ -20,7 +20,7 @@ Docker et Docker Compose installés sur votre machine.
 # Configuration des bases de données
 Votre projet Docker est configuré pour fonctionner avec deux environnements distincts : production et préproduction. Ces environnements ont des bases de données MySQL séparées, chacune avec sa propre configuration.
 
-# Configuration de la production
+### Configuration de la production
 Pour l'environnement de production, le service est nommé db_prod et utilise l'image MySQL version 5.7. Les variables d'environnement pour la configuration de cette base de données doivent être définies dans votre fichier .env :
 
   ```sh
@@ -30,7 +30,7 @@ PROD_MYSQL_PASSWORD=mot_de_passe_production
 PROD_MYSQL_ROOT_PASSWORD=mot_de_passe_root_production
  ```
 
-# Configuration de la préproduction
+### Configuration de la préproduction
 Pour l'environnement de préproduction, le service est nommé db_preprod et utilise également l'image MySQL version 5.7. Les variables d'environnement pour la configuration de cette base de données doivent être définies dans votre fichier .env :
 
 ```sh
