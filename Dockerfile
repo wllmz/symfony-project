@@ -1,32 +1,26 @@
+# Utilisation de l'image PHP 8.1 FPM
 FROM php:8.1-fpm
 
-# Installer les dépendances nécessaires
-RUN apt-get update && apt-get install -y \
-    unzip \
-    git \
-    libzip-dev
-# Installer les extensions PHP nécessaires
-RUN docker-php-ext-install pdo pdo_mysql
-# Ajouter Composer
+# Mise à jour des paquets et installation des dépendances
+RUN apt-get update && apt-get install -y unzip git libzip-dev && \
+    docker-php-ext-install pdo pdo_mysql && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Ajouter Composer et autoriser en tant que superutilisateur
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-# Si vous voulez autoriser Composer en tant que superutilisateur
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
-# Set the working directory
+# Configuration du répertoire de travail
 WORKDIR /var/www/html
 
-COPY composer.json /var/www/html/composer.json
-RUN composer clear-cache
-
-# Supprimez les dépendances de développement et installez les dépendances de production uniquement
+# Copier le fichier composer.json et installer les dépendances
+COPY composer.json ./
 RUN composer install --no-interaction --optimize-autoloader
 
-# Réglez les permissions si nécessaire
+# Réglage des permissions
 RUN chown -R www-data:www-data .
 
-# Configurez le fichier ini pour PHP pour la production
+# Configuration PHP pour la production
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-
-# Autres configurations spécifiques à la production...
 
 CMD ["php-fpm"]
