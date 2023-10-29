@@ -13,7 +13,7 @@ services:
 
     # Service Nginx
     nginx:
-        image: nginx:latest
+        image: nginx:1.21.3
         ports:
             - "8001:80"  # Port exposé
         volumes:
@@ -33,7 +33,7 @@ services:
 
     # Service Composer
     composer:
-        image: composer:latest
+        image: composer:2.1.9
         container_name: composer_service
         volumes:
             - .:/var/www/html  # Montage du code source
